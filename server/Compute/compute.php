@@ -5,25 +5,6 @@ const EPS = 1e-9; // константа для сравнения чисел в 
 require_once ('../DB_recv/db.php');
 
 /*
- * Класс для хранения только координат для точек (для удобства преобразования в json)
- */ 
-class __point {
-	/*
-	 * Долгота и широта соответственно.
-	 */ 
-	public $latitude;
-	public $longitude;
-	
-	/*
-	 * Конструктор для преобразования объекта класса point в объект класса __point.
-	 */
-	public function __construct ($point) {
-		$this -> latitude = $point -> floatPointLat;
-		$this -> longitude = $point -> floatPointLon;
-	}
-}
-
-/*
  *  Точка старта для компаратора comp.
  */
 $start = new point ();
