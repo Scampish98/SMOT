@@ -41,20 +41,15 @@ function getNearStops ($p) {
 
 /*
  * Функция для получения информации о времени начала движения маршрута,
- * времени окончания движения маршрута, а также о номере остановки в этом маршруте.
+ * времени окончания движения маршрута.
  * Получает в качестве параметров переменные по ссылке, которые необходимо заполнить:
  * $S - время начала движения маршрута, $E - время окончания движения маршрута,
  * $l - левая граница интервала движения, $r - правая граница интервала движения.
- * Также как параметры передаются идентификаторы остановки и маршрута: $idStop и $idRoute.
+ * Также как параметр передается идентификаторе маршрута $idRoute.
  */
-function getTimeIntervalNum (&$S, &$E, &$l, &$r, &$num, $idStop, $idRoute) {
+function getTimeAndInterval (&$S, &$E, &$l, &$r, $idRoute, $dir) {
 	$route = getObject ("route", $idRoute);
 
-	$dir = 0;
-	if (($num = getNumStopInRoute ($idStop, $idRoute, 0)) == -1) {
-		$num = getNumStopInRoute ($idStop, $idRoute, 1);
-		$dir = 1;
-	}
 	$time = (string) date ("w", time ());
 	if ($time == "0") {
 		if (!$dir) {
@@ -118,7 +113,12 @@ function timeToString ($time) {
  * Возвращает требуемое время строкой в стандартном формате "HH.MM"
  */
 function getNextTime ($idStop, $idRoute, $T) {
-	getTimeIntervalNum ($S, $E, $l, $r, $num, $idStop, $idRoute);
+	$dir = 0;
+	if (($num = getNumStopInRoute ($idStop, $idRoute, 0)) == -1) {
+		$num = getNumStopInRoute ($idStop, $idRoute, 1);
+		$dir = 1;
+	}
+	getTimeAndInterval ($S, $E, $l, $r, $idRoute, $dir);
 	$S = timeFromString ($S);
 	$E = timeFromString ($E);
 	$T = timeFromString ($T);
