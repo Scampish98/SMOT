@@ -1,5 +1,4 @@
 <?php
-require_once ('../classes.php');
 
 const host = '127.0.0.1';
 const user = 'root';
@@ -207,10 +206,6 @@ function getRouteBetweenStops ($idFirstStop, $idSecondStop, $idRoute, $dir) {
 	$start = getNumPointInRoute ($p1 -> intPointId, $idRoute, $dir);
 	$finish = getNumPointInRoute ($p2 -> intPointId, $idRoute, $dir);
 	$res = [];
-	if ($start >= $finish) {
-		fprintf (STDERR, "ERROR : %d -> %d, id1 = %d, id2 = %d,  idRoute = %d, dir = %d\n", $start, $finish, $p1 -> intPointId, $p2 -> intPointId, $idRoute, $dir);
-	}
-
 	for ($i = $start; $i <= $finish; $i++) {
 		$res[] = $route[$i];
 	}
@@ -229,6 +224,20 @@ function getRouteIds () {
 	while ($tmp = mysqli_fetch_assoc ($query_res))
 		$res[] = $tmp["intRouteId"];
 	return $res;
+}
+
+/*
+ * Функция для получения остановки с порядковым номером $numStop в маршруте $idRoute в направлении $dir.
+ * Принимает как параметры порядковый номер остановки $numStop, идентификатор маршрута $idRoute и требуемое направление $dir.
+ * Возвращает объект класса stop. 
+ */ 
+function getStopByNum ($numStop, $idRoute, $dir) {
+	global $db;
+	$query = "SELECT intStopId FROM tblStopRoute WHERE intStopNum = " . $numStop . " and intRouteId = " . $idRoute . 
+	" and boolDirection = " . $dir;
+	$query_res = mysqli_query ($db, $query);
+	$tmp = mysqli_fetch_assoc ($query_res);
+	return getObject ('stop', $tmp['intStopId']);
 }
 
 ?>
