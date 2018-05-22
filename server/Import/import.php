@@ -15,7 +15,8 @@
 	}
 
 	include_once ('../DB_recv/db.php');
-		
+	include_once ('../classes.php');
+
 	clear ();
 	$input = fopen ('result.data', 'r');
 	$maxbuf = 100000;
