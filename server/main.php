@@ -58,14 +58,14 @@ function handlerStops () {
 
 switch ($_POST["name"]) {
   case "getPaths":
-    return handlerPaths ();
+    echo handlerPaths ();
   case "getStopInfo":
-    return handlerStopInfo ();
+    echo handlerStopInfo ();
   case "getRouteInfo":
-    return handlerRouteInfo ();
+    echo handlerRouteInfo ();
   case "getRoutes":
-    return handlerRoutes ();
+    echo handlerRoutes ();
   case "getStops":
-    return handlerStops ();
+    echo handlerStops ();
 }
 ?>
