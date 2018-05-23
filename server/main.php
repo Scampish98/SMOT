@@ -5,7 +5,7 @@ require_once ('Compute/compute.php');
 
 function handlerPaths () {
   $p1 = new point (["floatPointLat" => $_POST["point1_lat"], "floatPointLon" => $_POST["point1_lon"]]);
-  $p1 = new point (["floatPointLat" => $_POST["point2_lat"], "floatPointLon" => $_POST["point2_lon"]]);
+  $p2 = new point (["floatPointLat" => $_POST["point2_lat"], "floatPointLon" => $_POST["point2_lon"]]);
   $paths = getPaths ($p1, $p2);
   return json_encode ($paths, JSON_UNESCAPED_UNICODE);
 }

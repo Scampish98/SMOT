@@ -2,7 +2,7 @@
 
 const host = '127.0.0.1';
 const user = 'root';
-const password = 'password';
+const password = 'ryzpmdkflbvbh98';
 
 /*
  * Подключение к MySQL.

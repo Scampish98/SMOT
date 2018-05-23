@@ -249,7 +249,6 @@ function getFastPaths ($start, $finish, $s, $f, $gr) {
 	$best = Dijkstra ($s, $f, $gr, $T);
 	$par = $best["par"];
 	$order = [];
-	print_r ($par);
 	for ($v = $par[$f]["v"]; $par[$v]["v"] != $s; $v = $par[$v]["v"]) {
 		$order[] = $par[$v];
 	}
@@ -295,7 +294,7 @@ function getPaths ($start, $finish) {
 	foreach ($ids as $id)
 		$gr[$id] = [];
 	
-	$fd = fopen ("graph", "r");
+	$fd = fopen ("Compute/graph", "r");
 	fscanf ($fd, "%d", $m);
 	for ($i = 0; $i < $m; $i++) {
 		fscanf ($fd, "%d %d %d %d %d\n", $x, $y, $idRoute, $dir, $cost);
@@ -310,11 +309,11 @@ function getPaths ($start, $finish) {
 	$nearFinish = getNearStops ($finish);
 	foreach ($nearStart as $stop) {
 		$point = getObject ("point", $stop -> intPointId);
-		$gr[$s][] = ["to" => $stop -> intStopId, "route" => -1, "dir" => 0, "cost" => $start -> dist ($point)];
+		$gr[$s][] = ["to" => $stop -> intStopId, "route" => -1, "dir" => 0, "cost" => $start -> dist ($point) * 15];
 	}
 	foreach ($nearFinish as $stop) {
 		$point = getObject ("point", $stop -> intPointId);
-		$gr[$stop -> intStopId][] = ["to" => $f, "route" => -1, "dir" => 0, "cost" => $point -> dist ($finish)];
+		$gr[$stop -> intStopId][] = ["to" => $f, "route" => -1, "dir" => 0, "cost" => $point -> dist ($finish) * 15];
 	}
 	
 	$ids[] = $s;
