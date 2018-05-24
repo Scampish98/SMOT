@@ -2,7 +2,7 @@ import sys
 import urllib
 import os
 
-path = '../../images'
+path = '../../../images'
 tempPath = 'tempImages'
 
 os.system ('mkdir ' + tempPath)

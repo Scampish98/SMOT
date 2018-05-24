@@ -37,7 +37,7 @@ foreach ($routes as $idRoute) {
   }
 }
 // записываем в файл
-$fd = fopen ("graph", "w");
+$fd = fopen ("../Compute/graph", "w");
 fprintf ($fd, "%d\n", count ($graph));
 foreach ($graph as $a) {
   fprintf ($fd, "%d %d %d %d %d\n", $a[0], $a[1], $a[2], $a[3], ceil ($a[4]));

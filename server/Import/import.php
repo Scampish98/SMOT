@@ -47,7 +47,7 @@
 		
 		$rt -> intRouteNum = $id;
 		$rt -> strRouteType = 'Троллейбус';
-		$rt -> strRouteMapUrl = 'images/route_' . (string) ($id) . '.jpg';
+		$rt -> strRouteMapUrl = 'http://www.testsite.loc/SMOT/images/route_' . (string) ($id) . '.jpg';
 		
 		$value = trim (fgets ($timeData, $maxbuf));
 		$values = explode (" ", $value);
@@ -181,4 +181,5 @@
 			}
 		}
 	}
+	require ("../Compute/buildGraph.php");
 ?>
