@@ -1,5 +1,7 @@
 import os
 
+# Принудительно перекомпилируем все файлы *.cpp
+
 os.system ('touch eraseSomeInformation.cpp')
 os.system ('touch findPtzPolygon.cpp')
 os.system ('touch findBounds.cpp')

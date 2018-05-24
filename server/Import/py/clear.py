@@ -1,5 +1,7 @@
 import os
 
+# просто удаляет все исполняемые файлы для плюсовых кодов и все временно созданные файлы.
+
 os.system ('rm eraseSomeInformation')
 os.system ('rm findPtzPolygon')
 os.system ('rm findBounds')
