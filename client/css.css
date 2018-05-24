@@ -1,0 +1,23 @@
+#map-wrapper {
+    width: 100%;
+    height: 920px;
+    position: relative;
+    border: 1px solid black;
+}
+
+#map {
+    width: 100%;
+    height: 920px;
+    background-color: green;
+}
+
+#button-wrapper {
+    position: absolute;
+    width: 100px;
+    height: 100%;
+    top: 0px; 
+    left: 0px; 
+    background: #fff; 
+
+
+}
