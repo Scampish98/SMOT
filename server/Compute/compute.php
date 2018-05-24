@@ -146,6 +146,7 @@ function getPathByPar ($par, $start, $finish, $s, $f) {
 		$stop2 = getObject ("stop", $to);
 		
 		$part = getRouteBetweenStops ($v, $to, $par[$to]["route"], $par[$to]["dir"]);
+		$tmp = [];
 		foreach ($part as $point)
 			$tmp[] = new __point ($point);
 		$points[] = $tmp;
