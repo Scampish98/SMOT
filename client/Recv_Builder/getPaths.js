@@ -1,3 +1,4 @@
+var i = 0;
 function sendPost() {
 	if (loc2 != null && loc1 != null) {
 		var p1 = loc1.getLatLng(), p2 = loc2.getLatLng();
@@ -9,21 +10,27 @@ function sendPost() {
 		function(data){
 			if (polyline) {
 				map.removeLayer(polyline);
-			}
-			var stops = $.parseJSON(data);
-			for (var prop in stops) {
-				for (var list in stops[prop].listPoints) {
-					var lat = parseFloat(stops[prop].listPoints[list].latitude.toString()),
-					lon = parseFloat(stops[prop].listPoints[list].longitude.toString());
-					var ll= {lat,lon};
+			}	
 
-					//if(next_point == 0)
-					//next_point = {lat,lon};
-					//L.polyline([next_point, ll]).addTo(map).bindPopup("." + ll);
-					//next_point = ll;
+			var paths = $.parseJSON(data);
+			var colors = ["red", "blue", "green"];
+			for (var i = 0; i <  paths.length; i++) {
+				var path = paths[i];
+				var points = [];
+				for (var point of path.listPoints) {
+					var lat = parseFloat(point.latitude.toString()),
+					lon = parseFloat(point.longitude.toString());
+					points.push ([lat, lon]);
 				}
+				var polyline = new L.Polyline(points, {color : colors[i]});
+				map.addLayer(polyline);
 			}
-		
 		});
-       	}
-  }
+	}
+}
+
+
+
+
+
+
