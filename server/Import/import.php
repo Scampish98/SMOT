@@ -1,4 +1,14 @@
 <?php
+	/*
+	* Создаем временную папку для скачивания, разархивированния и обработки географических данных.
+	* Помещаем в нее все файлы с кодами обработки.
+	* Запускаем основной файл скачивания и обработки.
+	* Удаляем временную папку.
+	* Если загрузка была выполнена успешно, то в текущей директории появятся папка с изображиниями images и
+	* файл с географическими данными result.data.
+	* Иначе импортирование не удалось.
+	*/
+
 	mkdir ('temp');
 	shell_exec ('cp -r cpp/* temp');
 	shell_exec ('cp -r py/* temp');
@@ -13,6 +23,14 @@
 		echo ('Download error!');
 		exit (1);
 	}
+
+	/*
+	* Подключаемся к базе данных.
+	* Очищаем её полностью.
+	* Открываем файл с географическими данными для чтения.
+	* Считываем количество интересующих нас точек и их координаты.
+	* Добавляем их в БД.
+	*/
 
 	include_once ('../DB_recv/db.php');
 	include_once ('../classes.php');
@@ -36,6 +54,14 @@
 		$pointList[$values[0]] = $pt;
 	}
 
+	/*
+	* Открываем для чтения файл с данными о времени для маршрутов.
+	* Для каждого маршрута добавим в БД информацию о его типе,
+	* ссылку на картинку с отображением маршрута, всю информацию 
+	* о временах (считаем из файла).
+	* Файл с информацией о временах больше не требуется. Закроем его.
+	*/
+
 	$ids = [1, 2, 3, 4, 5, 6, 8];
 
 	$routeList = [];
@@ -52,44 +78,44 @@
 		$value = trim (fgets ($timeData, $maxbuf));
 		$values = explode (" ", $value);
 		$tm = explode (":", $values[0]);
-		$rt -> timeRouteStartWeekOne = date ('h:i', mktime ((int) ($tm[0]), (int) ($tm[1])));
+		$rt -> timeRouteStartWeekOne = date ('H:i', mktime ((int) ($tm[0]), (int) ($tm[1])));
 		$tm = explode (":", $values[1]);
-		$rt -> timeRouteStartWeekTwo = date ('h:i', mktime ((int) ($tm[0]), (int) ($tm[1])));
+		$rt -> timeRouteStartWeekTwo = date ('H:i', mktime ((int) ($tm[0]), (int) ($tm[1])));
 
 		$value = trim (fgets ($timeData, $maxbuf));
 		$values = explode (" ", $value);
 		$tm = explode (":", $values[0]);
-		$rt -> timeRouteStartSatOne = date ('h:i', mktime ((int) ($tm[0]), (int) ($tm[1])));
+		$rt -> timeRouteStartSatOne = date ('H:i', mktime ((int) ($tm[0]), (int) ($tm[1])));
 		$tm = explode (":", $values[1]);
-		$rt -> timeRouteStartSatTwo = date ('h:i', mktime ((int) ($tm[0]), (int) ($tm[1])));
+		$rt -> timeRouteStartSatTwo = date ('H:i', mktime ((int) ($tm[0]), (int) ($tm[1])));
 		
 		$value = trim (fgets ($timeData, $maxbuf));
 		$values = explode (" ", $value);
 		$tm = explode (":", $values[0]);
-		$rt -> timeRouteStartSunOne = date ('h:i', mktime ((int) ($tm[0]), (int) ($tm[1])));
+		$rt -> timeRouteStartSunOne = date ('H:i', mktime ((int) ($tm[0]), (int) ($tm[1])));
 		$tm = explode (":", $values[1]);
-		$rt -> timeRouteStartSunTwo = date ('h:i', mktime ((int) ($tm[0]), (int) ($tm[1])));
+		$rt -> timeRouteStartSunTwo = date ('H:i', mktime ((int) ($tm[0]), (int) ($tm[1])));
 
 		$value = trim (fgets ($timeData, $maxbuf));
 		$values = explode (" ", $value);
 		$tm = explode (":", $values[0]);
-		$rt -> timeRouteEndWeekOne = date ('h:i', mktime ((int) ($tm[0]), (int) ($tm[1])));
+		$rt -> timeRouteEndWeekOne = date ('H:i', mktime ((int) ($tm[0]), (int) ($tm[1])));
 		$tm = explode (":", $values[1]);
-		$rt -> timeRouteEndWeekTwo = date ('h:i', mktime ((int) ($tm[0]), (int) ($tm[1])));
+		$rt -> timeRouteEndWeekTwo = date ('H:i', mktime ((int) ($tm[0]), (int) ($tm[1])));
 
 		$value = trim (fgets ($timeData, $maxbuf));
 		$values = explode (" ", $value);
 		$tm = explode (":", $values[0]);
-		$rt -> timeRouteEndSatOne = date ('h:i', mktime ((int) ($tm[0]), (int) ($tm[1])));
+		$rt -> timeRouteEndSatOne = date ('H:i', mktime ((int) ($tm[0]), (int) ($tm[1])));
 		$tm = explode (":", $values[1]);
-		$rt -> timeRouteEndSatTwo = date ('h:i', mktime ((int) ($tm[0]), (int) ($tm[1])));
+		$rt -> timeRouteEndSatTwo = date ('H:i', mktime ((int) ($tm[0]), (int) ($tm[1])));
 
 		$value = trim (fgets ($timeData, $maxbuf));
 		$values = explode (" ", $value);
 		$tm = explode (":", $values[0]);
-		$rt -> timeRouteEndSunOne = date ('h:i', mktime ((int) ($tm[0]), (int) ($tm[1])));
+		$rt -> timeRouteEndSunOne = date ('H:i', mktime ((int) ($tm[0]), (int) ($tm[1])));
 		$tm = explode (":", $values[1]);
-		$rt -> timeRouteEndSunTwo = date ('h:i', mktime ((int) ($tm[0]), (int) ($tm[1])));
+		$rt -> timeRouteEndSunTwo = date ('H:i', mktime ((int) ($tm[0]), (int) ($tm[1])));
 
 		$value = trim (fgets ($timeData, $maxbuf));
 		$values = explode (" ", $value);
@@ -112,6 +138,11 @@
 	}
 	fclose ($timeData);
 
+	/*
+	* Для каждолго маршрута считаем информацию о точках, через которе проходит этот маршрут.
+	* Считаем информацию об остановках, через которые проходит этот маршрут.
+	*/
+
 	$paths = [];
 	$lenPath = [];
 	$stops = [];
@@ -133,6 +164,12 @@
 		}
 	}
 
+	/*
+	* Считаем из файла список всех остановок с названиями.
+	* Добавим в БД все связи остановок с точками (с указанием названий установок).
+	* Файл с географическими данными больше не нужен. Закроем его.
+	*/
+
 	$stopList = [];
 	$stp = (int) (trim (fgets ($input, $maxbuf)));
 
@@ -149,6 +186,11 @@
 	}
 	fclose ($input);
 
+	/*
+	* Добавим в БД все связи между остановками и маршрутами (с указанием номера маршрута, 
+	* направления маршрута и порядковым номером остановки в маршруте).
+	*/
+
 	for ($i = 0; $i < 7; $i++) {
 		$id = $ids[$i];
 		for ($j = 0; $j < 2; $j++) {
@@ -164,6 +206,11 @@
 			}
 		}
 	}
+
+	/*
+	* Добавим в БД все связи между точками и маршрутами (с указанием номера маршрута,
+	* направления маршрута и порядковым номером точки в маршруте).
+	*/
 
 
 	for ($i = 0; $i < 7; $i++) {
