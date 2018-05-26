@@ -24,7 +24,7 @@ function comp ($a, $b) {
  * Получает данные обо всех остановках из БД
  * Сортирует все остановки по расстоянию от точки $p и возвращает массив из первых пяти в этом списке
  */
-function getNearStops ($p) {
+function getNearStops ($p, $col) {
 	global $start;
 	$res = [];
 	$stops = getPointsByStops ();
@@ -32,7 +32,7 @@ function getNearStops ($p) {
 	uasort ($stops, 'comp');
 	foreach ($stops as $stop => $point) {
 		$res[] = getObject ("stop", $stop);
-		if (count ($res) == 5)
+		if (count ($res) == $col)
 			break;
 	}
 	return $res;    
@@ -162,32 +162,56 @@ function getPathByPar ($par, $start, $finish, $s, $f) {
 }
 
 /*
+ * Функция для сортировки двух пар (массивов из двух элементов)
+ * сначала по первому элементу, затем по второму.
+ */ 
+function pairLess ($a, $b) {
+	if ($a[0] == $b[0])
+		return $a[1] < $b[1];
+	return $a[0] < $b[0];
+}
+
+/*
  * Функция делает расчет пути от точки $start до точки $finish по алгоритму из пункта 5.3.1
  * Получает в качестве параметров элементы класса point: $start - пункт отправления, $finish - пункт прибытия, а также 
  * номера пунктов отправления и прибытия в графе $s и $f и сам граф $gr.
  * Возвращает путь в виде элемента класса path.
  */
 function getMinChangesPath ($start, $finish, $s, $f, $gr) {
+	$par = [];
 	$ids = getStopIds ();
-	foreach ($ids as $id)
+	$ids[] = $f;
+	$ids[] = $s;
+	foreach ($ids as $id) {
+		$d[$id] = [(int) 1e9, (int) 1e9];
 		$was[$id] = 0;
-	$was[$f] = 0;
-	$was[$s] = 1;
-	$qh = $qt = 0;
-	$q[$qt++] = $s;
-	while ($qh != $qt) {
-		$v = $q[$qh++];
+		$par[$id]["route"] = -2;
+	}
+	$d[$s] = [0, 0];
+	for ($i = 0; $i < count ($ids); $i++) {
+		$v = -1;
+		foreach ($ids as $id) {
+			if ($v == -1) $v = $id;
+			if ($was[$id] == 0 && ($v == -1 || pairLess ($d[$id], $d[$v])))
+				$v = $id;
+		}
+		$was[$v] = 1;
 		if ($v == $f)
-			break;
+			break ;
 		foreach ($gr[$v] as $stop) {
-			if ($was[$stop["to"]] == 0) {
-				$was[$stop["to"]] = 1;
-				$q[$qt++] = $stop["to"];
-				$par[$stop["to"]] = array_merge (["v" => $v], $stop);
+			if ($stop["route"] == $par[$v]["route"])
+				continue;
+			$cost = $stop["cost"];
+			$to = $stop["to"];
+			$nd = [$d[$v][0] + 1, $d[$v][1] + $cost];
+			if (pairLess ($nd, $d[$to])) {
+				$d[$to] = $nd;
+				$par[$to] = array_merge (["v" => $v], $stop);
 			}
 		}
 	}
-	if ($was[$f] == 0)
+
+	if ($d[$f][0] == (int) 1e9)
 		return new path ();
 	return getPathByPar ($par, $start, $finish, $s, $f); 
 }
@@ -198,6 +222,8 @@ function getMinChangesPath ($start, $finish, $s, $f, $gr) {
  * Возвращает массив ["d" => время, чтобы добраться от $s до $f, "par" => массив предков для восстановления пути].
  */ 
 function Dijkstra ($s, $f, $gr, $T) {
+
+	$par = [];
 	$ids = getStopIds ();
 	$ids[] = $f;
 	$ids[] = $s;
@@ -215,7 +241,7 @@ function Dijkstra ($s, $f, $gr, $T) {
 		}
 		$was[$v] = 1;
 		if ($v == $f)
-			break ;
+				break ;
 		foreach ($gr[$v] as $stop) {
 			if ($stop["route"] == $par[$v]["route"])
 				continue;
@@ -236,7 +262,9 @@ function Dijkstra ($s, $f, $gr, $T) {
  * Компаратор для сортировки путей в функции getFastPaths по возрастанию стоимости.
  */ 
 function compPaths ($a, $b) {
-	return $a["d"] > $b["d"];
+	if ($a["d"] == $b["d"])
+		return 0;
+	return $a["d"] < $b["d"] ? -1 : 1;
 }
 
 /*
@@ -248,7 +276,12 @@ function compPaths ($a, $b) {
 function getFastPaths ($start, $finish, $s, $f, $gr) {
 	$T = getCurTime ();
 	$best = Dijkstra ($s, $f, $gr, $T);
+	if ($best["d"] == (int) 1e9)
+		return [];
 	$par = $best["par"];
+
+	//echo "FAST PATHS\n";
+	//print_r ($par);
 	$order = [];
 	for ($v = $par[$f]["v"]; $par[$v]["v"] != $s; $v = $par[$v]["v"]) {
 		$order[] = $par[$v];
@@ -257,18 +290,19 @@ function getFastPaths ($start, $finish, $s, $f, $gr) {
 	foreach ($order as $edge) {
 		$cgr = $gr;
 		for ($i = 0; $i < count ($gr[$edge["v"]]); $i++) {
-			if ($gr[$edge["v"]][$i]["to"] == $edge["to"]) {
+			$tmp = ["to" => $edge["to"], "route" => $edge["route"], "dir" => $edge ["dir"], "cost" => $edge ["cost"]];
+			if ($gr[$edge["v"]][$i] == $tmp) {
 				unset ($cgr[$edge["v"]][$i]);
 				break;
 			}
 		}
 		$tmp = Dijkstra ($s, $f, $cgr, $T);
-		if ($tmp["d"] < (int) 1e9) 
+		if ($tmp["d"] != (int) 1e9) 
 			$paths[] = $tmp;
 	}
 	
 	$res = [getPathByPar ($par, $start, $finish, $s, $f)];
-	uasort ($paths, 'compPaths');
+	usort ($paths, 'compPaths');
 	if (count ($paths) > 0 && $paths[0]["d"] < (int) 1e9)
 		$res[] = getPathByPar ($paths[0]["par"], $start, $finish, $s, $f);
 	return $res;
@@ -278,8 +312,11 @@ function getFastPaths ($start, $finish, $s, $f, $gr) {
  * Компаратор для сортировки ребер по возрастанию ключа "cost" в списке смежности.
  */ 
 function compEdges ($a, $b) {
-	return $a["cost"] > $b["cost"];
+	if ($a["cost"] == $b["cost"])
+		return 0;
+	return $a["cost"] < $b["cost"] ? -1 : 1;
 }
+
 
 /*
  * Делает расчет путей от точки $start до точки $finish (пункт 5.3)
@@ -289,6 +326,7 @@ function compEdges ($a, $b) {
  * Если какие-то пути дублируются, удаляет повторы
  * Возвращает массив, каждый элемент которого - элемент класса path, задающий путь от $start до $finish.
  */
+ 
 function getPaths ($start, $finish) {
 	$gr = [];
 	$ids = getStopIds ();
@@ -306,28 +344,35 @@ function getPaths ($start, $finish) {
 	$f = 10001;
 	$gr[$f] = [];
 	
-	$nearStart = getNearStops ($start);
-	$nearFinish = getNearStops ($finish);
+	$nearStart = getNearStops ($start, 3);
+	$nearFinish = getNearStops ($finish, 5);
+	
+	//print_r ($nearStart);
+	//print_r ($nearFinish);
+
 	foreach ($nearStart as $stop) {
 		$point = getObject ("point", $stop -> intPointId);
-		$gr[$s][] = ["to" => $stop -> intStopId, "route" => -1, "dir" => 0, "cost" => $start -> dist ($point) * 15];
+		$gr[$s][] = ["to" => $stop -> intStopId, "route" => -1, "dir" => 0, "cost" => round ($start -> dist ($point) * 15)];
 	}
 	foreach ($nearFinish as $stop) {
 		$point = getObject ("point", $stop -> intPointId);
-		$gr[$stop -> intStopId][] = ["to" => $f, "route" => -1, "dir" => 0, "cost" => $point -> dist ($finish) * 15];
+		$gr[$stop -> intStopId][] = ["to" => $f, "route" => -1, "dir" => 0, "cost" => round ($point -> dist ($finish) * 15)];
 	}
 	
 	$ids[] = $s;
 	$ids[] = $f;
+
 	foreach ($ids as $id) {
-		uasort ($gr[$id], 'compEdges');
+		usort ($gr[$id], 'compEdges');
 	}
+
 	$res = getFastPaths ($start, $finish, $s, $f, $gr);
 	$tmp = getMinChangesPath ($start, $finish, $s, $f, $gr);
+
 	if (count ($tmp -> listPoints) > 0)
 		$res[] = $tmp;
 	$tmp = [];
-
+	
 	foreach ($res as $path) {
 		$flag = false;
 		foreach ($tmp as $pathTmp) {
@@ -337,6 +382,7 @@ function getPaths ($start, $finish) {
 		if ($flag == false)
 			$tmp[] = $path;
 	}
+
 	return $tmp;
 }
 
