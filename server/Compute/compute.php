@@ -98,10 +98,10 @@ function timeFromString ($time) {
 }
 
 /*
- * Функция для конвертации времени из минут в "HH.MM". 
+ * Функция для конвертации времени из минут в "HH:MM". 
  */ 
 function timeToString ($time) {
-	return (string) floor ($time / 60.0) . (string) $time % 60;
+	return (string) floor ($time / 60.0) . ':' . (string) $time % 60;
 }
 
 
