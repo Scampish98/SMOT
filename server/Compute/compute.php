@@ -112,9 +112,14 @@ function timeToString ($time) {
  * Возвращает требуемое время строкой в стандартном формате "HH.MM"
  */
 function getNextTime ($idStop, $idRoute, $T) {
-	$dir = 0;
-	if (($num = getNumStopInRoute ($idStop, $idRoute, 0)) == -1) {
-		$num = getNumStopInRoute ($idStop, $idRoute, 1);
+	$num1 = getNumStopInRoute ($idStop, $idRoute, 0);
+	$num2 = getNumStopInRoute ($idStop, $idRoute, 1);
+	if ($num1 == 0 || $num2 == -1) {
+		$num = $num1;
+		$dir = 0;
+	}
+	if ($num2 == 0 || $num1 == -1) {
+		$num = $num2;
 		$dir = 1;
 	}
 	getTimeAndInterval ($S, $E, $l, $r, $idRoute, $dir);
