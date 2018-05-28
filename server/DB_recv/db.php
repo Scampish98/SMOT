@@ -127,7 +127,7 @@ function getRoutesByStopId ($id) {
 	$res = [];
 	while ($tmp = mysqli_fetch_assoc ($query_res))
 		$res[] = getObject ("route", $tmp["intRouteId"]);
-	return res;
+	return $res;
 }
 
 /*
