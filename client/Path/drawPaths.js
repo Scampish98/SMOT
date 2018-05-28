@@ -18,9 +18,7 @@ function clickGetPaths(){
 	loc2 = null;
 	
     }
-	map.on('click', function(e) {
-		onMapClick(e);
-	});
+	map.on('click', onMapClick);
 	function onMapClick(e) {
 		if (loc1 == null) {
          		loc1 = new L.marker(e.latlng);      
@@ -28,9 +26,14 @@ function clickGetPaths(){
 		}
 		else if (loc2 == null) {
         		loc2 = new L.marker(e.latlng);
-            		map.addLayer(loc2);
+			if (loc1.getLatLng () == loc2.getLatLng ())
+				loc2 = null;
+			else {
+            			map.addLayer(loc2);
+				sendPost();
+			}
        		}
-		if (loc1 != null && loc2 != null) 
-			sendPost();
+		//if (loc1 != null && loc2 != null) 
+			//sendPost();
 	};
 }

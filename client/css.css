@@ -17,7 +17,8 @@
     height: 100%;
     top: 0px; 
     left: 0px; 
-    background: #fff; 
+    background: #fff;
+    border: 1px solid black;
 }
 
 #button-getPaths {
@@ -26,4 +27,23 @@
     right: 20px; 
 }
 
+#routes-info {
+    position: absolute;
+    width: 400px;
+    height: 600px;
+    top: 20px; 
+    left: 120px; 
+    background: #fff; 
+    border: 1px solid black;
+}
+#close {
+    position: absolute;
+    width: 60px;
+    height: 20px;
+    top: 590px; 
+    left: 450px; 
+    background: #E74C3C; 
+    border: 1px solid black;
+
+}
 

@@ -5,12 +5,9 @@ function sendPost() {
 	"point1_lon":parseFloat(p1.lng.toString()),
 	"point2_lat":parseFloat(p2.lat.toString()), 
 	"point2_lon":parseFloat(p2.lng.toString())}, 
-	function(data){
-		if (polyline) {
-			map.removeLayer(polyline);
-		}	
-		
+	function(data){	
 		var paths = $.parseJSON(data);
+		console.log (paths);
 		var colors = ["red", "blue", "green"];
 		for (var i = 0; i <  paths.length; i++) {
 			var path = paths[i];
