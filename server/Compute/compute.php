@@ -55,7 +55,7 @@ function getTimeAndInterval (&$S, &$E, &$l, &$r, $idRoute, $dir) {
 			$S = $route -> timeRouteStartSunOne;
 			$E = $route -> timeRouteEndSunOne;
 		} else {
-			$S = $route -> timeRouteEndSunTwo;
+			$S = $route -> timeRouteStartSunTwo;
 			$E = $route -> timeRouteEndSunTwo;
 		}
 		$l = $route -> intRouteIntervalLeftSun;
@@ -65,7 +65,7 @@ function getTimeAndInterval (&$S, &$E, &$l, &$r, $idRoute, $dir) {
 			$S = $route -> timeRouteStartSatOne;
 			$E = $route -> timeRouteEndSatOne;
 		} else {
-			$S = $route -> timeRouteEndSatTwo;
+			$S = $route -> timeRouteStartSatTwo;
 			$E = $route -> timeRouteEndSatTwo;
 		}
 		$l = $route -> intRouteIntervalLeftSat;
@@ -75,7 +75,7 @@ function getTimeAndInterval (&$S, &$E, &$l, &$r, $idRoute, $dir) {
 			$S = $route -> timeRouteStartWeekOne;
 			$E = $route -> timeRouteEndWeekOne;
 		} else {
-			$S = $route -> timeRouteEndWeekTwo;
+			$S = $route -> timeRouteStartWeekTwo;
 			$E = $route -> timeRouteEndWeekTwo;
 		}
 		$l = $route -> intRouteIntervalLeftWeek;
@@ -123,8 +123,9 @@ function getNextTime ($idStop, $idRoute, $T) {
 	$T = timeFromString ($T);
 	$mid = ($l + $r) * 0.5;
 	$i = max (0, ceil ((float) ($T - $S - $num * $mid) / $mid));
-	if ($i > floor (($E - $S) / $mid))
+	if ($i > (int) floor (($E - $S) / $mid))
 		$i = 0;
+
 	$res = $S + $i * $mid + $num * $mid;
 	return timeToString ($res);
 }
