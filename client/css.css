@@ -29,21 +29,28 @@
 
 #routes-info {
     position: absolute;
-    width: 400px;
-    height: 600px;
-    top: 20px; 
+    width: 55vw;
+    height: 90vh;
+    top: 15px; 
     left: 120px; 
     background: #fff; 
     border: 1px solid black;
 }
 #close {
     position: absolute;
-    width: 60px;
-    height: 20px;
-    top: 590px; 
-    left: 450px; 
+    width: 30px;
+    height: 30px;
+    top: 22px; 
+    left: 62vh; 
     background: #E74C3C; 
     border: 1px solid black;
+}
 
+#img {
+    position: absolute;
+    width: 450px;
+    height: 500px;
+    top: 31.5vh; 
+    left: 19vh; 
 }
 

@@ -25,31 +25,83 @@ function clickOnBtn(id){
 				else if(name2 == null)
 					name2 = prop;
 			}
-			viewInfo(id);
+			viewInfo(id,name1,name2,routeInfo);
 	});
 }
-function viewInfo(id){
+function viewInfo(id ,name1,name2,info){
 	if(document.getElementById('routes-info') != null){
 		clickClose();
 	}
 	//console.log(routesName[id]);
+	var tbl1 = '<table border = "1"  width="500" >'+
+  '<tr>'+
+   '<th rowspan="2" class="first">Конечный пункт</th>'+
+   '<th colspan="3">Время начала движения</th>'+
+   '<th colspan="3">Время окончания движения</th>'+
+ '</tr>'+
+ '<tr>'+
+  ' <td class="first">Будни</td>'+
+   '<td class="first">Сб</td>'+
+   '<td class="first">Вс</td>'+
+   '<td class="first">Будни</td>'+
+   '<td class="first">Сб</td>'+
+   '<td class="first">Вс</td>'+
+ '</tr>'+
+ '<tr align = "center">'+
+  '<td rowspan="1" class="first">'+name1+'</td>'+
+  '<td>'+check(info[name1][0][0])+'</td>'+
+  '<td>'+check(info[name1][0][1])+'</td>'+
+  '<td>'+check(info[name1][0][2])+'</td>'+
+  '<td>'+check(info[name1][1][0])+'</td>'+
+  '<td>'+check(info[name1][1][1])+'</td>'+
+  '<td>'+check(info[name1][1][2])+'</td>'+
+  '</tr>'+
+'<tr align = "center">'+
+  '<td rowspan="1" class="first">'+name2+'</td>'+
+  '<td>'+check(info[name2][0][0])+'</td>'+
+  '<td>'+check(info[name2][0][1])+'</td>'+
+  '<td>'+check(info[name2][0][2])+'</td>'+
+  '<td>'+check(info[name2][1][0])+'</td>'+
+  '<td>'+check(info[name2][1][1])+'</td>'+
+  '<td>'+check(info[name2][1][2])+'</td>'+
+  '</tr>'+
+ '</table>';
+	var tbl2 = '<table border = "1"  width="500" >' +
+'<caption>Интервал движения</caption>'+
+  '<tr>'+
+    '<th >Будни</th>'+
+   '<th >Сб</th>'+
+   '<th >Вс</th>'+
+ '</tr>'+
+
+'<tr align = "center">'+
+ '<td>'+ check(info.interval[0][0]) +"-" + check(info.interval[0][1]) + '</td>'+
+ '<td>'+ check(info.interval[1][0]) +"-" + check(info.interval[1][1]) + '</td>'+
+ '<td>'+ check(info.interval[2][0]) +"-" + check(info.interval[2][1]) + '</td>'+
+
+ '</tr>'+
+ '</table>';
+
 	var str = '<div id="routes-info">'+
-     	 '<h2 id="Heading"  align="center">'+ routesName[id]+'</h2>'+
+     	 '<h3 id="Heading"  align="center">'+ routesName[id]+'</h2>'+
      	 '<div id="bodyContent" align="center">'+
-     	 '<p>blablablablablablablablabla</p>'+
-     	 '<p>blablablabla</p>'+
-     	 '</div>'+
+     	 tbl1+ tbl2+
+     	 '</div>'+	
       	'</div>';
 	var show = document.createElement('div');
 	show.innerHTML = str; 
 	document.body.appendChild(show);
-
+	var img= '<div id = "img"><img src='+info.map.toString()+ ' width="400px" ></div>';
+	var show = document.createElement('div');
+	show.innerHTML = img; 
+	document.body.appendChild(show);
 	var btn = document.createElement("input");
 	btn.id = 'close' ;
 	btn.type = 'button';
-	btn.value = "Close";
+	btn.value = "X";
 	btn.setAttribute('onclick', 'clickClose();');
 	document.body.appendChild(btn);
+	//console.log(info[name1][0][0].toString());
 
 }
 function clickClose(){
@@ -57,5 +109,17 @@ function clickClose(){
 	el.parentNode.removeChild(el);
 	el = document.getElementById('close');
 	el.parentNode.removeChild(el);
+	el = document.getElementById('img');
+	el.parentNode.removeChild(el);
+}
+function check(e){
+
+if (e == "10000000") 
+	return "";
+else if (e == "23:59:00")
+	return "-";
+else return e;
+
+
 }
 
