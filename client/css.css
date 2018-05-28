@@ -29,8 +29,8 @@
 
 #routes-info {
     position: absolute;
-    width: 55vw;
-    height: 90vh;
+    width: 490px;
+    height: 90%;
     top: 15px; 
     left: 120px; 
     background: #fff; 
@@ -41,15 +41,13 @@
     width: 30px;
     height: 30px;
     top: 22px; 
-    left: 62vh; 
+    left: 573px; 
     background: #E74C3C; 
     border: 1px solid black;
 }
 
 #img {
     position: absolute;
-    width: 450px;
-    height: 500px;
     top: 31.5vh; 
     left: 19vh; 
 }

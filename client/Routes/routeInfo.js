@@ -33,7 +33,7 @@ function viewInfo(id ,name1,name2,info){
 		clickClose();
 	}
 	//console.log(routesName[id]);
-	var tbl1 = '<table border = "1"  width="500" >'+
+	var tbl1 = '<table border = "1"  width="488px" >'+
   '<tr>'+
    '<th rowspan="2" class="first">Конечный пункт</th>'+
    '<th colspan="3">Время начала движения</th>'+
@@ -66,7 +66,7 @@ function viewInfo(id ,name1,name2,info){
   '<td>'+check(info[name2][1][2])+'</td>'+
   '</tr>'+
  '</table>';
-	var tbl2 = '<table border = "1"  width="500" >' +
+	var tbl2 = '<table border = "1"  width="488px" >' +
 '<caption>Интервал движения</caption>'+
   '<tr>'+
     '<th >Будни</th>'+
