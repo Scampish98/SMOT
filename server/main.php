@@ -1,5 +1,7 @@
 <?php
 
+//header ('Access-Control-Allow-Origin: *'); 
+
 //Подключаем все функции
 require_once ('classes.php');
 require_once ('DB_recv/db.php');
@@ -36,7 +38,17 @@ function handlerPaths () {
  * ['тип транспорта', 'номер транспорта', 'предположительное время прибытия']
  */
 function handlerStopInfo () {
-  $routes = getRoutesByStopId ($_POST["id"]);
+  $tmp = getRoutesByStopId ($_POST["id"]);
+	$routes = [];
+	foreach ($tmp as $route1) {
+		$f = true;
+		foreach ($routes as $route2)
+			if ($route1 == $route2)
+				$f = false;
+		if ($f)
+			$routes[] = $route1;
+	}
+
   $res = [];
   foreach ($routes as $route) {
     $res[] = [$route -> strRouteType, $route -> intRouteNum, getNextTime ($_POST["id"], $route -> intRouteId, getCurTime ())];
@@ -114,6 +126,11 @@ function handlerStops () {
   }
   return json_encode ($res, JSON_UNESCAPED_UNICODE);
 }
+
+
+
+/*$_POST["name"] = "getStopInfo";
+$_POST["id"] = 40;*/
 
 /*
  * Выбор обработчика запроса в зависимости от вида запроса (определяется через $_POST["name"]
