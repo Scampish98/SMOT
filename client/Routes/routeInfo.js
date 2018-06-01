@@ -1,3 +1,7 @@
+/*
+*Функция для отобращения окна с названиями маршрут. 
+*routes - данные содержащие названия маршрутов и информацию о них.
+*/
 var routesName=[];
 function routeInfo(routes){
 	for (var route in routes) {
@@ -6,33 +10,21 @@ function routeInfo(routes){
 		btn.id = 'route' + route.toString();
 		btn.type = 'button';
 		btn.value = routes[route][0].toString() + " " +routes[route][1].toString()
-		btn.setAttribute('onclick', 'clickOnBtn('+route.toString()+');');
+		btn.setAttribute('onclick', 'getRouteInfo('+route.toString()+');');
     		document.getElementById("button-wrapper").appendChild(btn);	
 	}
 }
-function clickOnBtn(id){
-	//console.log(id);	
-	$.post("http://www.testsite.loc/SMOT/server/main.php",{"name":"getRouteInfo","id":id},
-   		function(data){
-  			var routeInfo = $.parseJSON(data);
-			//console.log(routeInfo.interval);	
-			//console.log(routeInfo.map);
-			//console.log(routeInfo);
-			var name1, name2, name3;
-			for (var prop in routeInfo) {
-				if(name1 == null)
-					name1 = prop;
-				else if(name2 == null)
-					name2 = prop;
-			}
-			viewInfo(id,name1,name2,routeInfo);
-	});
-}
+/*
+*Функция для отображения окна с информацией о маршруте. 
+*id - идентификатор маршрута
+*name1, name2 - конечные остановки маршрута
+*info - информация о маршруте
+*/
+
 function viewInfo(id ,name1,name2,info){
 	if(document.getElementById('routes-info') != null){
 		clickClose();
 	}
-	//console.log(routesName[id]);
 	var tbl1 = '<table border = "1"  width="488px" >'+
   '<tr>'+
    '<th rowspan="2" class="first">Конечный пункт</th>'+
@@ -75,9 +67,9 @@ function viewInfo(id ,name1,name2,info){
  '</tr>'+
 
 '<tr align = "center">'+
- '<td>'+ check(info.interval[0][0]) +"-" + check(info.interval[0][1]) + '</td>'+
- '<td>'+ check(info.interval[1][0]) +"-" + check(info.interval[1][1]) + '</td>'+
- '<td>'+ check(info.interval[2][0]) +"-" + check(info.interval[2][1]) + '</td>'+
+ '<td>'+ check(info.interval[0][0]) + "-" + check(info.interval[0][1]) + '</td>'+
+ '<td>'+ check(info.interval[1][0]) + "-" + check(info.interval[1][1]) + '</td>'+
+ '<td>'+ check(info.interval[2][0]) + "-" + check(info.interval[2][1]) + '</td>'+
 
  '</tr>'+
  '</table>';
@@ -101,9 +93,11 @@ function viewInfo(id ,name1,name2,info){
 	btn.value = "X";
 	btn.setAttribute('onclick', 'clickClose();');
 	document.body.appendChild(btn);
-	//console.log(info[name1][0][0].toString());
 
 }
+/*
+*Функция для удаления окна с информацией о маршруте. 
+*/
 function clickClose(){
 	var el = document.getElementById('routes-info');
 	el.parentNode.removeChild(el);
@@ -114,12 +108,11 @@ function clickClose(){
 }
 function check(e){
 
-if (e == "10000000") 
-	return "";
-else if (e == "23:59:00")
-	return "-";
-else return e;
-
+	if (e == "10000000") 
+		return "";
+	else if (e == "23:59:00")
+		return "-";
+	else return e;
 
 }
 
