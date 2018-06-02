@@ -16,16 +16,21 @@ function getPaths() {
 			var path = paths[i];
 			var points = [];
 			for (var point of path.listPoints) {
-				var lat = parseFloat(point.latitude.toString()) + i*0.00003,
-				lon = parseFloat(point.longitude.toString()) ;
-				points.push ([lat, lon]);
+					var lat = parseFloat(point.latitude.toString()) + i*0.00004,
+					lon = parseFloat(point.longitude.toString()) ;
+					points.push ([lat, lon]);
 			}
 			var route = "";
 			for (var list of path.listRoutes) {
-				route += 'Сесть на ' + list[0] + " "+list[1]+ ' на остановке "' + list[2] + '" ,высадиться на остановке "'+ list[3] + '"<br>';
+				route += 'Сесть на ' + list[0] + " "+list[1]+ ' на остановке "' + list[2] + '", высадиться на остановке "'+ list[3] + '"<br>';
 			}
 			polylines[i] = new L.Polyline(points, {color : colors[i], opacity : 1,weight : 5}).bindPopup(route);
 			map.addLayer(polylines[i]);
+			var len = points.length;
+			var startPolyline = new L.Polyline([points[0],points[1]], {color : "grey", opacity : 1,weight : 5}).bindPopup(route);
+			map.addLayer(startPolyline);
+			var endPolyline = new L.Polyline([points[len - 1],points[len -2]], {color : "grey", opacity : 1,weight : 5}).bindPopup(route);
+			map.addLayer(endPolyline);
 		}
 	});
 }
