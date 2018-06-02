@@ -1,13 +1,13 @@
 #map-wrapper {
-    width: 98.5vw;
-    height: 97vh;
+    width: 100vw;
+    height: 100%;
     position: relative;
     border: 1px solid black;
 }
 
 #map {
-    width: 98.5vw;
-    height: 97vh;
+    width: 100vw;
+    height: 100vh;
     background-color: green;
 }
 
@@ -23,16 +23,16 @@
 
 #button-getPaths {
     position: absolute;
-    top: 20px; 
-    right: 20px; 
+    top: 1vh; 
+    right: 1vw; 
 }
 
 #routes-info {
     position: absolute;
-    width: 490px;
-    height: 875px;
-    top: 15px; 
-    left: 120px; 
+    width: 30em;
+    height: 95%;
+    top: 10px; 
+    left: 115px;
     background: #fff; 
     border: 1px solid black;
 }
@@ -40,15 +40,14 @@
     position: absolute;
     width: 30px;
     height: 30px;
-    top: 22px; 
-    left: 573px; 
+    top: 15px; 
+    left: calc(34em + 107px); 
     background: #E74C3C; 
     border: 1px solid black;
 }
 
-#img {
-    position: absolute;
-    top: 31.5vh; 
-    left: 19vh; 
+.route {
+	width: 100px;
+    	height: 20px;
 }
 

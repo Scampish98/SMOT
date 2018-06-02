@@ -16,17 +16,19 @@ function getPaths() {
 			var path = paths[i];
 			var points = [];
 			for (var point of path.listPoints) {
-				var lat = parseFloat(point.latitude.toString()),
-				lon = parseFloat(point.longitude.toString());
+				var lat = parseFloat(point.latitude.toString()) + i*0.00003,
+				lon = parseFloat(point.longitude.toString()) ;
 				points.push ([lat, lon]);
 			}
-			var polyline = new L.Polyline(points, {color : colors[i]});
-			map.addLayer(polyline);
+			var route = "";
+			for (var list of path.listRoutes) {
+				route += 'Сесть на ' + list[0] + " "+list[1]+ ' на остановке "' + list[2] + '" ,высадиться на остановке "'+ list[3] + '".\n';
+			}
+			polylines[i] = new L.Polyline(points, {color : colors[i], opacity : 1,weight : 5}).bindPopup(route);
+			map.addLayer(polylines[i]);
 		}
 	});
 }
-
-
 
 
 

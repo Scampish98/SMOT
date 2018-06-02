@@ -20,7 +20,6 @@ function drawStops(lat, lng, id){
 *id - идентификатор остановки
 */
 function showStopInfo(info,id){
-	console.log(info);
 	var str ="";
 	for (var i in info) {
 		str +=info[i][0]+" "+ info[i][1] + "  -  " + info[i][2] + "<br>";

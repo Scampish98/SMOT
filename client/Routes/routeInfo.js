@@ -7,7 +7,8 @@ function routeInfo(routes){
 	for (var route in routes) {
 		routesName[route.toString()] = 	routes[route][0].toString() + " " +routes[route][1].toString();
 		var btn = document.createElement("input");
-		btn.id = 'route' + route.toString();
+		btn.id = 'route';
+		btn.setAttribute("class", "route");
 		btn.type = 'button';
 		btn.value = routes[route][0].toString() + " " +routes[route][1].toString()
 		btn.setAttribute('onclick', 'getRouteInfo('+route.toString()+');');
@@ -25,7 +26,7 @@ function viewInfo(id ,name1,name2,info){
 	if(document.getElementById('routes-info') != null){
 		clickClose();
 	}
-	var tbl1 = '<table border = "1"  width="488px" >'+
+	var tbl1 = '<table id = "tab1" border = "1" width = "99%">'+
   '<tr>'+
    '<th rowspan="2" class="first">Конечный пункт</th>'+
    '<th colspan="3">Время начала движения</th>'+
@@ -39,7 +40,7 @@ function viewInfo(id ,name1,name2,info){
    '<td class="first">Сб</td>'+
    '<td class="first">Вс</td>'+
  '</tr>'+
- '<tr align = "center">'+
+ '<tr >'+
   '<td rowspan="1" class="first">'+name1+'</td>'+
   '<td>'+check(info[name1][0][0])+'</td>'+
   '<td>'+check(info[name1][0][1])+'</td>'+
@@ -48,7 +49,7 @@ function viewInfo(id ,name1,name2,info){
   '<td>'+check(info[name1][1][1])+'</td>'+
   '<td>'+check(info[name1][1][2])+'</td>'+
   '</tr>'+
-'<tr align = "center">'+
+'<tr >'+
   '<td rowspan="1" class="first">'+name2+'</td>'+
   '<td>'+check(info[name2][0][0])+'</td>'+
   '<td>'+check(info[name2][0][1])+'</td>'+
@@ -58,7 +59,7 @@ function viewInfo(id ,name1,name2,info){
   '<td>'+check(info[name2][1][2])+'</td>'+
   '</tr>'+
  '</table>';
-	var tbl2 = '<table border = "1"  width="488px" >' +
+	var tbl2 = '<table id = "tab2" border = "1">' +
 '<caption>Интервал движения</caption>'+
   '<tr>'+
     '<th >Будни</th>'+
@@ -77,15 +78,15 @@ function viewInfo(id ,name1,name2,info){
 	var str = '<div id="routes-info">'+
      	 '<h3 id="Heading"  align="center">'+ routesName[id]+'</h2>'+
      	 '<div id="bodyContent" align="center">'+
-     	 tbl1+ tbl2+
+     	 tbl1 + tbl2 + '<div id = "img"><img src='+info.map.toString()+ ' width = "92%"></div>'+
      	 '</div>'+	
       	'</div>';
 	var show = document.createElement('div');
 	show.innerHTML = str; 
 	document.body.appendChild(show);
-	var img= '<div id = "img"><img src='+info.map.toString()+ ' width="400px" ></div>';
+	/*var img= '<div id = "img"><img src='+info.map.toString()+ ' width = "99%"></div>';
 	var show = document.createElement('div');
-	show.innerHTML = img; 
+	show.innerHTML = img; */
 	document.body.appendChild(show);
 	var btn = document.createElement("input");
 	btn.id = 'close' ;
@@ -102,9 +103,7 @@ function clickClose(){
 	var el = document.getElementById('routes-info');
 	el.parentNode.removeChild(el);
 	el = document.getElementById('close');
-	el.parentNode.removeChild(el);
-	el = document.getElementById('img');
-	el.parentNode.removeChild(el);
+	el.parentNode.removeChild(el);	
 }
 function check(e){
 

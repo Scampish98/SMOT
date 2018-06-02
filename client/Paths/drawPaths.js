@@ -2,8 +2,10 @@
 *Функция отображающая метки A и B - пункт отправления и пункт прибытия соответственно. 
 */
 var loc1, loc2;
+var polylines = {};
 function drawPaths(){
     	deletePaths();
+	if (document.getElementById('routes-info')!=null) clickClose();
 	map.on('click', onMapClick);
 	function onMapClick(e) {
 		if (loc1 == null) {
