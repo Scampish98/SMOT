@@ -22,7 +22,7 @@ function getPaths() {
 			}
 			var route = "";
 			for (var list of path.listRoutes) {
-				route += 'Сесть на ' + list[0] + " "+list[1]+ ' на остановке "' + list[2] + '" ,высадиться на остановке "'+ list[3] + '".\n';
+				route += 'Сесть на ' + list[0] + " "+list[1]+ ' на остановке "' + list[2] + '" ,высадиться на остановке "'+ list[3] + '"<br>';
 			}
 			polylines[i] = new L.Polyline(points, {color : colors[i], opacity : 1,weight : 5}).bindPopup(route);
 			map.addLayer(polylines[i]);
