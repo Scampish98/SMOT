@@ -1,6 +1,6 @@
 #map-wrapper {
     width: 100vw;
-    height: 100%;
+    height: 100vh;
     position: relative;
     border: 1px solid black;
 }
@@ -29,8 +29,8 @@
 
 #routes-info {
     position: absolute;
-    width: 30em;
-    height: 95%;
+    width: 46em;
+    height: 35em;
     top: 10px; 
     left: 115px;
     background: #fff; 
@@ -41,13 +41,25 @@
     width: 30px;
     height: 30px;
     top: 15px; 
-    left: calc(34em + 107px); 
+    left: calc(53em + 107px); 
     background: #E74C3C; 
     border: 1px solid black;
 }
-
+#img {
+	position: absolute;
+	top: 4em; 
+   	left: 24em; 
+}
 .route {
 	width: 100px;
     	height: 20px;
 }
+#tab1 {
+	width: 20em;
+}
+#tab2 {
+	width: 20em;
+}
+
+
 

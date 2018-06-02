@@ -42,21 +42,21 @@ function viewInfo(id ,name1,name2,info){
  '</tr>'+
  '<tr >'+
   '<td rowspan="1" class="first">'+name1+'</td>'+
-  '<td>'+check(info[name1][0][0])+'</td>'+
-  '<td>'+check(info[name1][0][1])+'</td>'+
-  '<td>'+check(info[name1][0][2])+'</td>'+
-  '<td>'+check(info[name1][1][0])+'</td>'+
-  '<td>'+check(info[name1][1][1])+'</td>'+
-  '<td>'+check(info[name1][1][2])+'</td>'+
+  '<td>'+check(info[name1][0][0]).substring(0,5)+'</td>'+
+  '<td>'+check(info[name1][0][1]).substring(0,5)+'</td>'+
+  '<td>'+check(info[name1][0][2]).substring(0,5)+'</td>'+
+  '<td>'+check(info[name1][1][0]).substring(0,5)+'</td>'+
+  '<td>'+check(info[name1][1][1]).substring(0,5)+'</td>'+
+  '<td>'+check(info[name1][1][2]).substring(0,5)+'</td>'+
   '</tr>'+
 '<tr >'+
   '<td rowspan="1" class="first">'+name2+'</td>'+
-  '<td>'+check(info[name2][0][0])+'</td>'+
-  '<td>'+check(info[name2][0][1])+'</td>'+
-  '<td>'+check(info[name2][0][2])+'</td>'+
-  '<td>'+check(info[name2][1][0])+'</td>'+
-  '<td>'+check(info[name2][1][1])+'</td>'+
-  '<td>'+check(info[name2][1][2])+'</td>'+
+  '<td>'+check(info[name2][0][0]).substring(0,5)+'</td>'+
+  '<td>'+check(info[name2][0][1]).substring(0,5)+'</td>'+
+  '<td>'+check(info[name2][0][2]).substring(0,5)+'</td>'+
+  '<td>'+check(info[name2][1][0]).substring(0,5)+'</td>'+
+  '<td>'+check(info[name2][1][1]).substring(0,5)+'</td>'+
+  '<td>'+check(info[name2][1][2]).substring(0,5)+'</td>'+
   '</tr>'+
  '</table>';
 	var tbl2 = '<table id = "tab2" border = "1">' +
@@ -76,9 +76,9 @@ function viewInfo(id ,name1,name2,info){
  '</table>';
 
 	var str = '<div id="routes-info">'+
-     	 '<h3 id="Heading"  align="center">'+ routesName[id]+'</h2>'+
-     	 '<div id="bodyContent" align="center">'+
-     	 tbl1 + tbl2 + '<div id = "img"><img src='+info.map.toString()+ ' width = "92%"></div>'+
+     	 '<h3 id="Heading" >'+ routesName[id]+'</h2>'+
+     	 '<div id="bodyContent" >'+
+     	 tbl1 + tbl2 + '<div id="img"><img src="'+info.map.toString()+ '" width = "340em" ></div>'+
      	 '</div>'+	
       	'</div>';
 	var show = document.createElement('div');
@@ -87,14 +87,13 @@ function viewInfo(id ,name1,name2,info){
 	/*var img= '<div id = "img"><img src='+info.map.toString()+ ' width = "99%"></div>';
 	var show = document.createElement('div');
 	show.innerHTML = img; */
-	document.body.appendChild(show);
+	//document.body.appendChild(show);
 	var btn = document.createElement("input");
 	btn.id = 'close' ;
 	btn.type = 'button';
 	btn.value = "X";
 	btn.setAttribute('onclick', 'clickClose();');
 	document.body.appendChild(btn);
-
 }
 /*
 *Функция для удаления окна с информацией о маршруте. 
