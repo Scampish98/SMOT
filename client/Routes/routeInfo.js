@@ -26,7 +26,7 @@ function viewInfo(id ,name1,name2,info){
 	if(document.getElementById('routes-info') != null){
 		clickClose();
 	}
-	var tbl1 = '<table id = "tab1" border = "1" width = "99%">'+
+	var tbl1 = '<table id = "tab1" border = "1">'+
   '<tr>'+
    '<th rowspan="2" class="first">Конечный пункт</th>'+
    '<th colspan="3">Время начала движения</th>'+
@@ -77,9 +77,7 @@ function viewInfo(id ,name1,name2,info){
 
 	var str = '<div id="routes-info">'+
      	 '<h3 id="Heading" >'+ routesName[id]+'</h2>'+
-     	 '<div id="bodyContent" >'+
-     	 tbl1 + tbl2 + '<div id="img"><img src="'+info.map.toString()+ '" width = "340em" ></div>'+
-     	 '</div>'+	
+     	 tbl1 + tbl2 + '<div id="img"><img src="'+info.map.toString()+ '" width = "97%" ></div>'+	
       	'</div>';
 	var show = document.createElement('div');
 	show.innerHTML = str; 
@@ -93,7 +91,7 @@ function viewInfo(id ,name1,name2,info){
 	btn.type = 'button';
 	btn.value = "X";
 	btn.setAttribute('onclick', 'clickClose();');
-	document.body.appendChild(btn);
+	document.getElementById("routes-info").appendChild(btn);	
 }
 /*
 *Функция для удаления окна с информацией о маршруте. 
@@ -101,8 +99,6 @@ function viewInfo(id ,name1,name2,info){
 function clickClose(){
 	var el = document.getElementById('routes-info');
 	el.parentNode.removeChild(el);
-	el = document.getElementById('close');
-	el.parentNode.removeChild(el);	
 }
 function check(e){
 

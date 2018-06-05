@@ -1,6 +1,9 @@
 /*
 *Функция отображающая метки A и B - пункт отправления и пункт прибытия соответственно. 
 */
+var greenIcon = new L.icon({
+	iconUrl: "http://www.testsite.loc/SMOT/client/green.png", iconAnchor: [12,41]}),
+    redIcon = new L.icon({iconUrl: "http://www.testsite.loc/SMOT/client/red.png", iconAnchor: [12,41]});
 var loc1, loc2;
 var polylines = {};
 var colors = ["red", "blue", "green"];
@@ -10,11 +13,11 @@ function drawPaths(){
 	map.on('click', onMapClick);
 	function onMapClick(e) {
 		if (loc1 == null) {
-         		loc1 = new L.marker(e.latlng);      
+         		loc1 = new L.marker(e.latlng, {icon: greenIcon});      
                		map.addLayer(loc1);
 		}
 		else if (loc2 == null) {
-        		loc2 = new L.marker(e.latlng);
+        		loc2 = new L.marker(e.latlng, {icon: redIcon});
 			if (loc1.getLatLng () == loc2.getLatLng ())
 				loc2 = null;
 			else {

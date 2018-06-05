@@ -1,8 +1,11 @@
+body
+{margin:0;padding:0;border:0;font-size:100%}
+
+
 #map-wrapper {
     width: 100vw;
     height: 100vh;
     position: relative;
-    border: 1px solid black;
 }
 
 #map {
@@ -13,53 +16,73 @@
 
 #button-wrapper {
     position: absolute;
-    width: 100px;
-    height: 100%;
+    width: 8em;
+    min-width: 100px;
+    height: 100% ;
     top: 0px; 
     left: 0px; 
     background: #fff;
-    border: 1px solid black;
 }
 
-#button-getPaths {
+#btnGetPaths {
     position: absolute;
+    text-decoration: none;
+    height: 2.5em;
+    background: #6495ED; 
+    outline: none;
     top: 1vh; 
-    right: 1vw; 
+    right: 1vh; 
+    color: #fff;
 }
+#btnGetPaths:hover { background: #0000FF; } 
+#btnGetPaths:active { background: #6495ED; } 
 
 #routes-info {
     position: absolute;
     width: 46em;
     height: 35em;
-    top: 10px; 
-    left: 115px;
+    top: 0px; 
+    left: 8.1em;
     background: #fff; 
-    border: 1px solid black;
 }
+.route {
+  width: 100%;
+  height: 2.5em;
+  color: #fff;
+  text-decoration: none;
+  background: #6495ED; 
+  outline: none;
+} 
+.route:hover { background: #0000FF; } 
+.route:active { background: #6495ED; } 
 #close {
     position: absolute;
-    width: 30px;
-    height: 30px;
-    top: 15px; 
-    left: calc(53em + 107px); 
-    background: #E74C3C; 
-    border: 1px solid black;
+    width: 2em;
+    height: 2em;
+    top: 1em; 
+    left: 52em; 
+    text-decoration: none;
+    outline: none;
+    background: none; 
 }
+#close:hover { background: #E74C3C; } 
 #img {
 	position: absolute;
 	top: 4em; 
-   	left: 24em; 
+   	left: 24.5em; 
 }
-.route {
-	width: 100px;
-    	height: 20px;
-}
+
 #tab1 {
-	width: 20em;
+	max-width: 18em;
+	font-size: 0.8em;
+	min-width: 15em;
 }
 #tab2 {
-	width: 20em;
+	max-width: 18em;
+	font-size: 0.8em;
+	min-width: 15em;
 }
+
 
 
 
